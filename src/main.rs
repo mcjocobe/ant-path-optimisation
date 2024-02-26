@@ -1,14 +1,14 @@
 #[derive(Debug)]
 struct Node {
-    coor_x: u32,
-    coor_y: u32,
-    value: u32,
+    coor_x: i32,
+    coor_y: i32,
+    value: i32,
 }
 
 #[derive(Debug)]
 struct Universe {
-    size_x: u32,
-    size_y: u32,
+    size_x: i32,
+    size_y: i32,
 }
 
 fn main() {
@@ -18,7 +18,7 @@ fn main() {
     println!("{:?}", test_var);
 }
 
-fn create_node(coor_x: u32, coor_y: u32, value: u32) -> Node {
+fn create_node(coor_x: i32, coor_y: i32, value: i32) -> Node {
     Node {
         coor_x: coor_x,
         coor_y: coor_y,
@@ -26,7 +26,7 @@ fn create_node(coor_x: u32, coor_y: u32, value: u32) -> Node {
     }
 }
 
-fn create_universe(size_x: u32, size_y: u32) -> Universe {
+fn create_universe(size_x: i32, size_y: i32) -> Universe {
     Universe {
         size_x: size_x,
         size_y: size_y,
@@ -39,6 +39,13 @@ fn is_node_in_universe(node: Node, universe: Universe) -> bool {
     } else {
         false
     }
+}
+
+fn distance_between_nodes(node_one: Node, node_two: Node) -> f32 {
+    let result =
+        (node_one.coor_x - node_two.coor_x).pow(2) + (node_one.coor_y - node_two.coor_y).pow(2);
+    let f_result = result as f32;
+    f_result.sqrt()
 }
 
 #[cfg(test)]
@@ -67,5 +74,15 @@ mod tests {
         let test_universe = crate::create_universe(100, 200);
         let test_node = crate::create_node(40, 203, 0);
         assert_eq!(crate::is_node_in_universe(test_node, test_universe), false)
+    }
+
+    #[test]
+    fn compute_distance_between_nodes() {
+        let test_node_one = crate::create_node(40, 130, 0);
+        let test_node_two = crate::create_node(40, 150, 0);
+        assert_eq!(
+            crate::distance_between_nodes(test_node_one, test_node_two),
+            20.0
+        )
     }
 }
