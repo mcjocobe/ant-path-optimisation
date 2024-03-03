@@ -6,6 +6,12 @@ struct Node {
 }
 
 #[derive(Debug)]
+struct Ant {
+    coor_x: i32, = 0,
+    coor_y: i32, = 0,
+}
+
+#[derive(Debug)]
 struct Universe {
     size_x: i32,
     size_y: i32,
@@ -48,6 +54,20 @@ fn distance_between_nodes(node_one: Node, node_two: Node) -> f32 {
     f_result.sqrt()
 }
 
+fn create_ant_colony<'a>(number: u32) -> &'a [Ant] {
+    let colony: &[Ant];
+    colony[0] ;
+    {
+        for n in 1..number {
+            colony[n as usize] = Ant {
+                coor_x: 0,
+                coor_y: 0,
+            }
+        }
+    }
+    colony
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
@@ -84,5 +104,22 @@ mod tests {
             crate::distance_between_nodes(test_node_one, test_node_two),
             20.0
         )
+    }
+
+    #[test]
+    fn compute_distance_between_same_node() {
+        let test_node_one = crate::create_node(40, 130, 0);
+        let test_node_two = crate::create_node(40, 130, 0);
+        assert_eq!(
+            crate::distance_between_nodes(test_node_one, test_node_two),
+            0.0
+        )
+    }
+
+    #[test]
+    fn create_ant_colony_with_3_ants() {
+        let test_colony = crate::create_ant_colony(3);
+        println!("{:?}", test_colony)
+        // assert_eq!(test_colony, [(0, 0), (0, 0), (0, 0)])
     }
 }
